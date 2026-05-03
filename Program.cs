@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
-
+using Microsoft.Extensions.FileProviders;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,7 +16,14 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+app.UseStaticFiles();
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "Maps")),
+    RequestPath = "/Maps"
+});
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

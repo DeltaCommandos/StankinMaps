@@ -1,0 +1,96 @@
+﻿@{
+    var building = ViewBag.Building.ToString();
+    var floor = (int)ViewBag.Floor;
+
+    var svgPath = $"/Maps/{building}/{floor}.svg";
+}
+
+<div class="map-page">
+
+    <!-- Переключатель этажей -->
+    <div class="floor-switcher">
+
+        @for (int i = 9; i >= 1; i--)
+        {
+            <a href="@Url.Action("Maps", "Maps", new { building = building, floor = i })"
+               class="floor-btn @(i == floor ? "active" : "")">
+
+                @i
+
+            </a>
+        }
+
+    </div>
+
+
+    <!-- Карта -->
+    <div class="map-container">
+
+        <img src="@svgPath" class="map-image" />
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .map-page {
+        display: flex;
+        gap: 40px;
+        padding: 20px;
+    }
+
+
+    .floor-switcher {
+        position: fixed;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #070c6b;
+        border-radius: 30px;
+        padding: 10px 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+
+    .floor-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+        font-size: 28px;
+        border: 2px solid transparent;
+        background: #2836c8;
+        transition: 0.2s;
+    }
+
+
+        .floor-btn:hover {
+            transform: scale(1.08);
+        }
+
+
+        .floor-btn.active {
+            border: 3px solid white;
+        }
+
+
+    .map-container {
+        margin-left: 100px;
+        width: 100%;
+    }
+
+
+    .map-image {
+        width: 100%;
+        max-width: 1200px;
+    }
+
+</style>

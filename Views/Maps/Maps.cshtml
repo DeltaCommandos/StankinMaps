@@ -1,5 +1,5 @@
 ﻿@{
-    var building = ViewBag.Building.ToString();
+    var building = ViewBag.Building?.ToString() ?? "main";
     var floor = (int)ViewBag.Floor;
 
     var svgPath = $"/Maps/{building}/{floor}.svg";
@@ -7,40 +7,163 @@
 
 <div class="map-page">
 
-    <!-- Переключатель этажей -->
     <div class="floor-switcher">
-
         @for (int i = 9; i >= 1; i--)
         {
             <a href="@Url.Action("Maps", "Maps", new { building = building, floor = i })"
                class="floor-btn @(i == floor ? "active" : "")">
-
                 @i
-
             </a>
         }
-
     </div>
 
+    <div class="map-wrapper">
+        <div id="mapContainer"
+             class="map-container"
+             data-building="@building"
+             data-floor="@floor"
+             data-svg="@svgPath">
+        </div>
+    </div>
 
-    <!-- Карта -->
-    <div class="map-container">
-
-        <img src="@svgPath" class="map-image" />
-
+    <div id="roomPanel" class="room-panel">
+        <h3 id="roomTitle">Выберите объект на карте</h3>
+        <p id="roomType"></p>
+        <p id="roomDescription">Нажмите на аудиторию или другой объект.</p>
+        <p id="roomCapacity"></p>
+        <p id="roomDepartment"></p>
     </div>
 
 </div>
 
 
-<style>
 
-    .map-page {
-        display: flex;
-        gap: 40px;
-        padding: 20px;
+<script>
+    document.addEventListener("DOMContentLoaded", async function () {
+        const container = document.getElementById("mapContainer");
+
+        const svgPath = container.dataset.svg;
+        const building = container.dataset.building;
+        const floor = container.dataset.floor;
+
+        const response = await fetch(svgPath);
+        const svgText = await response.text();
+
+        container.innerHTML = svgText;
+
+        const svg = container.querySelector("svg");
+
+        if (!svg) {
+            console.error("SVG не найден");
+            return;
+        }
+
+        svg.classList.add("map-svg");
+
+        const roomsLayer = findLayerByLabel(svg, "Rooms");
+
+        const clickableElements = roomsLayer
+            ? roomsLayer.querySelectorAll("path, rect, polygon")
+            : svg.querySelectorAll("path, rect, polygon");
+
+        clickableElements.forEach(element => {
+            const svgLabel = getSvgLabel(element);
+            const svgElementId = element.id;
+
+            if (!svgLabel && !svgElementId) {
+                return;
+            }
+
+            element.classList.add("map-clickable");
+
+            element.addEventListener("click", async function (event) {
+                event.stopPropagation();
+
+                clearSelected(svg);
+                element.classList.add("selected-room");
+
+                await loadMapObject(building, floor, svgLabel, svgElementId);
+            });
+        });
+    });
+
+    function getSvgLabel(element) {
+        return element.getAttribute("inkscape:label")
+            || element.getAttributeNS("http://www.inkscape.org/namespaces/inkscape", "label")
+            || null;
     }
 
+    function findLayerByLabel(svg, label) {
+        const groups = svg.querySelectorAll("g");
+
+        for (const group of groups) {
+            if (getSvgLabel(group) === label) {
+                return group;
+            }
+        }
+
+        return null;
+    }
+
+    function clearSelected(svg) {
+        svg.querySelectorAll(".selected-room").forEach(element => {
+            element.classList.remove("selected-room");
+        });
+    }
+
+    async function loadMapObject(building, floor, svgLabel, svgElementId) {
+        const params = new URLSearchParams();
+
+        params.append("building", building);
+        params.append("floor", floor);
+
+        if (svgLabel) {
+            params.append("svgLabel", svgLabel);
+        }
+
+        if (svgElementId) {
+            params.append("svgElementId", svgElementId);
+        }
+
+        const response = await fetch(`/Maps/GetMapObject?${params.toString()}`);
+
+        if (!response.ok) {
+            document.getElementById("roomTitle").innerText = "Информация не найдена";
+            document.getElementById("roomType").innerText = "";
+            document.getElementById("roomDescription").innerText = "Для этого элемента SVG пока нет записи в базе данных.";
+            document.getElementById("roomCapacity").innerText = "";
+            document.getElementById("roomDepartment").innerText = "";
+            return;
+        }
+
+        const data = await response.json();
+
+        document.getElementById("roomTitle").innerText = data.number
+            ? `${data.number} — ${data.title}`
+            : data.title;
+
+        document.getElementById("roomType").innerText = data.type
+            ? `Тип: ${data.type}`
+            : "";
+
+        document.getElementById("roomDescription").innerText = data.description || "";
+
+        document.getElementById("roomCapacity").innerText = data.capacity
+            ? `Вместимость: ${data.capacity}`
+            : "";
+
+        document.getElementById("roomDepartment").innerText = data.department
+            ? `Кафедра/отдел: ${data.department}`
+            : "";
+    }
+</script>
+
+<style>
+    .map-page {
+        display: flex;
+        gap: 30px;
+        padding: 20px;
+    }
 
     .floor-switcher {
         position: fixed;
@@ -53,8 +176,8 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
+        z-index: 10;
     }
-
 
     .floor-btn {
         width: 48px;
@@ -71,26 +194,65 @@
         transition: 0.2s;
     }
 
-
         .floor-btn:hover {
             transform: scale(1.08);
         }
-
 
         .floor-btn.active {
             border: 3px solid white;
         }
 
+    .map-wrapper {
+        margin-left: 100px;
+        flex: 1;
+    }
 
     .map-container {
-        margin-left: 100px;
         width: 100%;
+        overflow: auto;
     }
 
-
-    .map-image {
+    .map-svg {
         width: 100%;
         max-width: 1200px;
+        height: auto;
     }
 
+    .map-clickable {
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .map-clickable:hover {
+            opacity: 0.75;
+            stroke: #1d4ed8;
+            stroke-width: 1;
+        }
+
+    .selected-room {
+        fill: #93c5fd !important;
+        stroke: #1d4ed8 !important;
+        stroke-width: 1.5 !important;
+    }
+
+    .room-panel {
+        width: 320px;
+        min-width: 320px;
+        min-height: 180px;
+        padding: 20px;
+        border-radius: 16px;
+        background: #f8fafc;
+        border: 1px solid #dbe3ef;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+        .room-panel h3 {
+            margin-top: 0;
+            font-size: 22px;
+        }
+
+        .room-panel p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
 </style>

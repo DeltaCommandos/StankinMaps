@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.EntityFrameworkCore;
+using StankinMaps.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,6 +16,9 @@ builder.Services.AddAuthorization(options =>
     options.FallbackPolicy = options.DefaultPolicy;
 });
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 app.UseStaticFiles();

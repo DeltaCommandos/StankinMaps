@@ -22,11 +22,7 @@ namespace StankinMaps.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMapObject(
-            string building,
-            int floor,
-            string? svgLabel,
-            string? svgElementId)
+        public async Task<IActionResult> GetMapObject( string building, int floor, string? svgLabel, string? svgElementId)
         {
             var mapObject = await _context.MapObjectSvgElements
                 .Where(x =>

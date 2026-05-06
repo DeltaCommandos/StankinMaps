@@ -30,8 +30,6 @@
         <h3 id="roomTitle">Выберите объект на карте</h3>
         <p id="roomType"></p>
         <p id="roomDescription">Нажмите на аудиторию или другой объект.</p>
-        <p id="roomCapacity"></p>
-        <p id="roomDepartment"></p>
     </div>
 
 </div>
@@ -41,6 +39,10 @@
 <script>
     document.addEventListener("DOMContentLoaded", async function () {
         const container = document.getElementById("mapContainer");
+
+        if (!container) {
+            return;
+        }
 
         const svgPath = container.dataset.svg;
         const building = container.dataset.building;
@@ -54,7 +56,7 @@
         const svg = container.querySelector("svg");
 
         if (!svg) {
-            console.error("SVG не найден", svgPath);
+            console.error("SVG не найден");
             return;
         }
 
@@ -85,6 +87,8 @@
                 await loadMapObject(building, floor, svgLabel, svgElementId);
             });
         });
+
+        await focusObjectFromQuery(svg, building, floor);
     });
 
     function getSvgLabel(element) {
@@ -111,6 +115,66 @@
         });
     }
 
+    function findMapElements(svg, svgLabel, svgElementId, number) {
+        const allElements = svg.querySelectorAll("path, rect, polygon");
+        const result = [];
+
+        allElements.forEach(element => {
+            const elementLabel = getSvgLabel(element);
+            const elementId = element.id;
+
+            const labelMatched =
+                svgLabel && elementLabel === svgLabel;
+
+            const idMatched =
+                svgElementId && elementId === svgElementId;
+
+            const numberMatched =
+                number && (elementLabel === number || elementId === number);
+
+            if (labelMatched || idMatched || numberMatched) {
+                result.push(element);
+            }
+        });
+
+        return result;
+    }
+
+    async function focusObjectFromQuery(svg, building, floor) {
+        const params = new URLSearchParams(window.location.search);
+
+        const svgLabel = params.get("focusSvgLabel");
+        const svgElementId = params.get("focusSvgElementId");
+        const number = params.get("focusNumber");
+
+        if (!svgLabel && !svgElementId && !number) {
+            return;
+        }
+
+        const elements = findMapElements(svg, svgLabel, svgElementId, number);
+
+        if (elements.length > 0) {
+            clearSelected(svg);
+
+            elements.forEach(element => {
+                element.classList.add("selected-room");
+            });
+
+            elements[0].scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+                inline: "center"
+            });
+        }
+
+        await loadMapObject(
+            building,
+            floor,
+            svgLabel || number,
+            svgElementId || number
+        );
+    }
+
     async function loadMapObject(building, floor, svgLabel, svgElementId) {
         const params = new URLSearchParams();
 
@@ -126,14 +190,11 @@
         }
 
         const response = await fetch(`/Maps/GetMapObject?${params.toString()}`);
-        console.log("GetMapObject", response.status, `/Maps/GetMapObject?${params.toString()}`);
 
         if (!response.ok) {
             document.getElementById("roomTitle").innerText = "Информация не найдена";
             document.getElementById("roomType").innerText = "";
             document.getElementById("roomDescription").innerText = "Для этого элемента SVG пока нет записи в базе данных.";
-            document.getElementById("roomCapacity").innerText = "";
-            document.getElementById("roomDepartment").innerText = "";
             return;
         }
 
@@ -148,14 +209,6 @@
             : "";
 
         document.getElementById("roomDescription").innerText = data.description || "";
-
-        document.getElementById("roomCapacity").innerText = data.capacity
-            ? `Вместимость: ${data.capacity}`
-            : "";
-
-        document.getElementById("roomDepartment").innerText = data.department
-            ? `Кафедра/отдел: ${data.department}`
-            : "";
     }
 </script>
 

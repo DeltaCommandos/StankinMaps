@@ -23,12 +23,6 @@ public class MapObject
     [Column("description")]
     public string? Description { get; set; }
 
-    //[Column("capacity")]
-    //public int? Capacity { get; set; }
-
-    //[Column("department")]
-    //public string? Department { get; set; }
-
     [Column("is_clickable")]
     public bool IsClickable { get; set; }
 

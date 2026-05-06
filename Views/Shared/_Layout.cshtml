@@ -35,12 +35,25 @@
 
         </nav>
 
+        <div class="header-search" id="headerSearch">
+            <input id="headerSearchInput"
+                   class="header-search-input"
+                   type="search"
+                   placeholder="Аудитория, кабинет..."
+                   autocomplete="off" />
 
-        <div class="search-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-            </svg>
+            <button id="headerSearchButton"
+                    class="header-search-button"
+                    type="button"
+                    aria-label="Поиск">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                </svg>
+            </button>
+
+            <div id="headerSearchMessage" class="header-search-message"></div>
         </div>
+        
 
     </header>
 
@@ -54,5 +67,135 @@
 
     @await RenderSectionAsync("Scripts", required: false)
 
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const search = document.getElementById("headerSearch");
+            const input = document.getElementById("headerSearchInput");
+            const button = document.getElementById("headerSearchButton");
+            const message = document.getElementById("headerSearchMessage");
+
+            if (!search || !input || !button) {
+                return;
+            }
+
+            let searchTimer = null;
+            let isSearching = false;
+
+            button.addEventListener("click", async function () {
+                if (!search.classList.contains("open")) {
+                    openSearch();
+                    return;
+                }
+
+                await runSearch();
+            });
+
+            input.addEventListener("keydown", async function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    await runSearch();
+                }
+
+                if (event.key === "Escape") {
+                    closeSearch();
+                }
+            });
+
+            input.addEventListener("input", function () {
+                clearTimeout(searchTimer);
+
+                const query = input.value.trim();
+
+                hideMessage();
+
+                if (query.length < 3) {
+                    return;
+                }
+
+                searchTimer = setTimeout(async function () {
+                    await runSearch();
+                }, 500);
+            });
+
+            function openSearch() {
+                search.classList.add("open");
+                input.focus();
+            }
+
+            function closeSearch() {
+                search.classList.remove("open");
+                input.value = "";
+                hideMessage();
+            }
+
+            async function runSearch() {
+                const query = input.value.trim();
+
+                if (query.length < 2 || isSearching) {
+                    return;
+                }
+
+                isSearching = true;
+
+                try {
+                    const response = await fetch(`/Maps/SearchMapObject?query=${encodeURIComponent(query)}`);
+
+                    if (!response.ok) {
+                        showMessage("Ничего не найдено");
+                        return;
+                    }
+
+                    const data = await response.json();
+
+                    const params = new URLSearchParams();
+                    params.set("building", data.building);
+                    params.set("floor", data.floor);
+
+                    if (data.id) {
+                        params.set("focusObjectId", data.id);
+                    }
+
+                    if (data.number) {
+                        params.set("focusNumber", data.number);
+                    }
+
+                    if (data.svgLabel) {
+                        params.set("focusSvgLabel", data.svgLabel);
+                    }
+
+                    if (data.svgElementId) {
+                        params.set("focusSvgElementId", data.svgElementId);
+                    }
+
+                    window.location.href = `/Maps/Maps?${params.toString()}`;
+                } catch (error) {
+                    console.error(error);
+                    showMessage("Ошибка поиска");
+                } finally {
+                    isSearching = false;
+                }
+            }
+
+            function showMessage(text) {
+                if (!message) {
+                    return;
+                }
+
+                message.innerText = text;
+                message.classList.add("visible");
+            }
+
+            function hideMessage() {
+                if (!message) {
+                    return;
+                }
+
+                message.innerText = "";
+                message.classList.remove("visible");
+            }
+        });
+    </script>
 </body>
 </html>

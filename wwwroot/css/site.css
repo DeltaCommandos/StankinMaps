@@ -34,8 +34,7 @@ body {
 
 
 
-
-
+/*    Мейн    */
 body {
     margin: 0;
     background: #f8f8f8;
@@ -117,4 +116,65 @@ body {
 
     .building-card:hover img {
         transform: scale(1.05);
+    }
+
+
+
+
+
+/*    Поиск    */
+.header-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-search-input {
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
+    padding: 8px 0;
+    border: 1px solid #dbe3ef;
+    border-radius: 999px;
+    outline: none;
+    font-size: 14px;
+    transition: width 0.2s ease, opacity 0.2s ease, padding 0.2s ease;
+}
+
+.header-search.open .header-search-input {
+    width: 220px;
+    opacity: 1;
+    pointer-events: auto;
+    padding: 8px 14px;
+}
+
+.header-search-button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-search-message {
+    position: absolute;
+    right: 0;
+    top: 46px;
+    min-width: 220px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid #dbe3ef;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    font-size: 13px;
+    display: none;
+    z-index: 1000;
+}
+
+    .header-search-message.visible {
+        display: block;
     }

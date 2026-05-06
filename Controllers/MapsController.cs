@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StankinMaps.Data;
 
@@ -13,7 +13,7 @@ namespace StankinMaps.Controllers
             _context = context;
         }
 
-        public IActionResult Maps(string building = "main", int floor = 1)
+        public IActionResult Maps(string building = "New", int floor = 1)
         {
             ViewBag.Building = building;
             ViewBag.Floor = floor;
@@ -22,23 +22,45 @@ namespace StankinMaps.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMapObject( string building, int floor, string? svgLabel, string? svgElementId)
+        public async Task<IActionResult> GetMapObject(
+            string building,
+            int floor,
+            string? svgLabel,
+            string? svgElementId)
         {
-            var mapObject = await _context.MapObjectSvgElements
+            building = (building ?? string.Empty).Trim();
+            svgLabel = svgLabel?.Trim();
+            svgElementId = svgElementId?.Trim();
+
+            if (string.IsNullOrWhiteSpace(building) ||
+                (string.IsNullOrWhiteSpace(svgLabel) && string.IsNullOrWhiteSpace(svgElementId)))
+            {
+                return BadRequest("building and svgLabel/svgElementId are required");
+            }
+
+            var buildingLower = building.ToLower();
+
+            var mapObject = await _context.MapObjects
                 .Where(x =>
-                    x.MapObject.FloorMap.Building.Code == building &&
-                    x.MapObject.FloorMap.FloorNumber == floor &&
+                    x.FloorMap.Building.Code.ToLower() == buildingLower &&
+                    x.FloorMap.FloorNumber == floor &&
                     (
-                        (!string.IsNullOrEmpty(svgLabel) && x.SvgLabel == svgLabel) ||
-                        (!string.IsNullOrEmpty(svgElementId) && x.SvgElementId == svgElementId)
+                        (!string.IsNullOrEmpty(svgLabel) && x.Number == svgLabel) ||
+                        (!string.IsNullOrEmpty(svgElementId) && x.Number == svgElementId) ||
+                        x.SvgElements.Any(svg =>
+                            (!string.IsNullOrEmpty(svgLabel) &&
+                                (svg.SvgLabel == svgLabel || svg.SvgElementId == svgLabel)) ||
+                            (!string.IsNullOrEmpty(svgElementId) &&
+                                (svg.SvgLabel == svgElementId || svg.SvgElementId == svgElementId))
+                        )
                     ))
                 .Select(x => new
                 {
-                    id = x.MapObject.Id,
-                    number = x.MapObject.Number,
-                    title = x.MapObject.Title,
-                    description = x.MapObject.Description,
-                    type = x.MapObject.ObjectType.Name
+                    id = x.Id,
+                    number = x.Number,
+                    title = x.Title,
+                    description = x.Description,
+                    type = x.ObjectType.Name
                 })
                 .FirstOrDefaultAsync();
 

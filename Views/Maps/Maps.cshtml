@@ -1,4 +1,4 @@
-﻿@{
+@{
     var building = ViewBag.Building?.ToString() ?? "main";
     var floor = (int)ViewBag.Floor;
 
@@ -54,7 +54,7 @@
         const svg = container.querySelector("svg");
 
         if (!svg) {
-            console.error("SVG не найден");
+            console.error("SVG не найден", svgPath);
             return;
         }
 
@@ -126,6 +126,7 @@
         }
 
         const response = await fetch(`/Maps/GetMapObject?${params.toString()}`);
+        console.log("GetMapObject", response.status, `/Maps/GetMapObject?${params.toString()}`);
 
         if (!response.ok) {
             document.getElementById("roomTitle").innerText = "Информация не найдена";

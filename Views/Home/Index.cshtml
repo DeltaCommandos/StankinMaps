@@ -1,23 +1,62 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Главная";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="hero">
+
+    <h1>
+        Узнайте <span>СТАНКИН</span> изнутри!
+    </h1>
+
+</section>
+
+
+<section class="intro">
+
+    <h2>
+        StankinMaps - удобный сервис для навигации по любимому вузу
+    </h2>
+
+</section>
+
+
+
 <div class="buildings-grid">
 
     <div class="building-card"
-         onclick="location.href='@Url.Action("Maps", "Maps", new { building = "New", floor = 1 })'"
-         style="cursor:pointer">
+         onclick="location.href='@Url.Action("Maps", "Maps", new { building = "Old", floor = 1 })'">
 
-        <img src="~/images/new.png"
-             alt="Новый корпус"
-             width="320"
-             height="320" />
+        <img src="~/images/old.png">
 
-        <p>Новый корпус</p>
+        <p>
+            Старый корпус
+        </p>
+
+    </div>
+
+
+
+    <div class="building-card"
+         onclick="location.href='@Url.Action("Maps", "Maps", new { building = "New", floor = 1 })'">
+
+        <img src="~/images/new.png">
+
+        <p>
+            Новый корпус
+        </p>
+
+    </div>
+
+
+
+    <div class="building-card"
+        onclick="location.href='@Url.Action("Maps", "Maps", new { building = "Frezer", floor = 1 })'">
+
+        <img src="~/images/frezer.png">
+
+        <p>
+            Фрезер
+        </p>
 
     </div>
 

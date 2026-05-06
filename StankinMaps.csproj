@@ -18,7 +18,12 @@
 
   <ItemGroup>
     <Folder Include="Maps\Old\" />
-    <Folder Include="Maps\Frezer\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\new.png" />
+    <None Include="wwwroot\images\old.png" />
+    <None Include="wwwroot\images\frezer.png" />
   </ItemGroup>
 
 </Project>

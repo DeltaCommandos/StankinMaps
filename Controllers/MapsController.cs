@@ -42,7 +42,6 @@ namespace StankinMaps.Controllers
                     number = x.MapObject.Number,
                     title = x.MapObject.Title,
                     description = x.MapObject.Description,
-                    //department = x.MapObject.Department,
                     type = x.MapObject.ObjectType.Name
                 })
                 .FirstOrDefaultAsync();

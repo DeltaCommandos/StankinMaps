@@ -15,6 +15,8 @@ namespace StankinMaps.Controllers
 
         public IActionResult Maps(string building = "main", int floor = 1)
         {
+            building = building?.ToLower();
+
             ViewBag.Building = building;
             ViewBag.Floor = floor;
 
@@ -27,7 +29,10 @@ namespace StankinMaps.Controllers
             int floor,
             string? svgLabel,
             string? svgElementId)
+
         {
+            building = building?.ToLower();
+
             var mapObject = await _context.MapObjects
                 .Where(x =>
                     x.FloorMap.Building.Code == building &&

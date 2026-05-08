@@ -80,7 +80,7 @@
                 return;
             }
 
-            let searchTimer = null;
+            // let searchTimer = null;
             let isSearching = false;
 
             button.addEventListener("click", async function () {
@@ -103,21 +103,21 @@
                 }
             });
 
-            input.addEventListener("input", function () {
-                clearTimeout(searchTimer);
+            // input.addEventListener("input", function () {
+            //     clearTimeout(searchTimer);
 
-                const query = input.value.trim();
+            //     const query = input.value.trim();
 
-                hideMessage();
+            //     hideMessage();
 
-                if (query.length < 3) {
-                    return;
-                }
+            //     if (query.length < 3) {
+            //         return;
+            //     }
 
-                searchTimer = setTimeout(async function () {
-                    await runSearch();
-                }, 500);
-            });
+            //     searchTimer = setTimeout(async function () {
+            //         await runSearch();
+            //     }, 500);
+            // });
 
             function openSearch() {
                 search.classList.add("open");

@@ -35,11 +35,11 @@ namespace StankinMaps.Controllers
                     x.IsClickable &&
                     (
                         x.SvgElements.Any(s =>
-                            (!string.IsNullOrEmpty(svgLabel) && s.SvgLabel == svgLabel) ||
-                            (!string.IsNullOrEmpty(svgElementId) && s.SvgElementId == svgElementId)
+                            !string.IsNullOrEmpty(svgLabel) && s.SvgLabel == svgLabel ||
+                            !string.IsNullOrEmpty(svgElementId) && s.SvgElementId == svgElementId
                         ) ||
-                        (!string.IsNullOrEmpty(svgLabel) && x.Number == svgLabel) ||
-                        (!string.IsNullOrEmpty(svgElementId) && x.Number == svgElementId)
+                        !string.IsNullOrEmpty(svgLabel) && x.Number == svgLabel ||
+                        !string.IsNullOrEmpty(svgElementId) && x.Number == svgElementId
                     ))
                 .Select(x => new
                 {
@@ -74,12 +74,12 @@ namespace StankinMaps.Controllers
                 .Where(x =>
                     x.IsSearchable &&
                     (
-                        (x.Number != null && EF.Functions.ILike(x.Number, pattern)) ||
+                        x.Number != null && EF.Functions.ILike(x.Number, pattern) ||
                         EF.Functions.ILike(x.Title, pattern) ||
-                        (x.Description != null && EF.Functions.ILike(x.Description, pattern)) ||
+                        x.Description != null && EF.Functions.ILike(x.Description, pattern) ||
                         x.SvgElements.Any(s =>
-                            (s.SvgLabel != null && EF.Functions.ILike(s.SvgLabel, pattern)) ||
-                            (s.SvgElementId != null && EF.Functions.ILike(s.SvgElementId, pattern))
+                            s.SvgLabel != null && EF.Functions.ILike(s.SvgLabel, pattern) ||
+                            s.SvgElementId != null && EF.Functions.ILike(s.SvgElementId, pattern)
                         )
                     ))
                 .OrderByDescending(x => x.Number == query)

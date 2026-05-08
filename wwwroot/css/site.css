@@ -1,46 +1,41 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+    color: var(--bs-secondary-color);
+    text-align: end;
 }
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+    text-align: start;
 }
 
-
-
-
-
-/*    Мейн    */
+/* Мейн */
 body {
     margin: 0;
     background: #f8f8f8;
     font-family: Arial;
 }
-
 
 .main-header {
     height: 90px;
@@ -51,17 +46,14 @@ body {
     border-bottom: 1px solid #ddd;
 }
 
-
 .logo-img {
     height: 45px;
 }
-
 
 .top-menu {
     display: flex;
     gap: 40px;
 }
-
 
     .top-menu a {
         text-decoration: none;
@@ -69,60 +61,54 @@ body {
         font-size: 14px;
     }
 
-
 .hero {
     text-align: center;
     margin-top: 40px;
 }
-
 
     .hero h1 {
         font-size: 54px;
         font-weight: bold;
     }
 
-
     .hero span {
         color: darkred;
     }
-
 
 .intro {
     text-align: center;
     margin-top: 50px;
 }
 
-
 .buildings-grid {
     margin-top: 80px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 80px;
-    justify-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
 }
-
 
 .building-card {
     cursor: pointer;
     text-align: center;
+    width: 32%; /* To align them in a row */
 }
 
-
     .building-card img {
-        width: 320px;
+        width: 80%; /* Уменьшена ширина изображений */
         transition: .2s;
     }
-
 
     .building-card:hover img {
         transform: scale(1.05);
     }
 
+    .building-card p {
+        margin-top: 10px;
+        font-size: 16px;
+    }
 
-
-
-
-/*    Поиск    */
+/* Поиск */
 .header-search {
     position: relative;
     display: flex;
@@ -178,3 +164,107 @@ body {
     .header-search-message.visible {
         display: block;
     }
+
+
+
+
+
+
+
+/*           MapPage         */
+.map-page {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+}
+
+.room-panel {
+    width: 320px;
+    min-width: 320px;
+    min-height: 180px;
+    padding: 20px;
+    border-radius: 16px;
+    background: #f8fafc;
+    border: 1px solid #dbe3ef;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    order: -1; /* Добавлено для размещения слева */
+}
+
+    .room-panel h3 {
+        margin-top: 0;
+        font-size: 22px;
+    }
+
+    .room-panel p {
+        margin: 8px 0;
+        font-size: 16px;
+    }
+
+.floor-switcher {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #070c6b;
+    border-radius: 30px;
+    padding: 10px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 10;
+}
+
+.floor-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: 28px;
+    border: 2px solid transparent;
+    background: #2836c8;
+    transition: 0.2s;
+}
+
+    .floor-btn:hover {
+        transform: scale(1.08);
+    }
+
+    .floor-btn.active {
+        border: 3px solid white;
+    }
+
+.map-wrapper {
+    flex: 1;
+}
+
+.map-container {
+    width: 100%;
+    overflow: auto;
+}
+
+.map-svg {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+}
+
+.map-clickable {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+    .map-clickable:hover {
+        opacity: 0.75;
+        stroke: #1d4ed8;
+        stroke-width: 1;
+    }
+
+.selected-room {
+    fill: #93c5fd !important;
+    stroke: #1d4ed8 !important;
+    stroke-width: 1.5 !important;
+}

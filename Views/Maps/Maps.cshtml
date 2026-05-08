@@ -6,6 +6,20 @@
 }
 
 <div class="map-page">
+    <div class="map-wrapper">
+        <div id="mapContainer"
+             class="map-container"
+             data-building="@building"
+             data-floor="@floor"
+             data-svg="@svgPath">
+        </div>
+    </div>
+
+    <div class="room-panel">
+        <h3 id="roomTitle">Выберите объект на карте</h3>
+        <p id="roomType"></p>
+        <p id="roomDescription">Нажмите на аудиторию или другой объект.</p>
+    </div>
 
     <div class="floor-switcher">
         @for (int i = 9; i >= 1; i--)
@@ -16,25 +30,7 @@
             </a>
         }
     </div>
-
-    <div class="map-wrapper">
-        <div id="mapContainer"
-             class="map-container"
-             data-building="@building"
-             data-floor="@floor"
-             data-svg="@svgPath">
-        </div>
-    </div>
-
-    <div id="roomPanel" class="room-panel">
-        <h3 id="roomTitle">Выберите объект на карте</h3>
-        <p id="roomType"></p>
-        <p id="roomDescription">Нажмите на аудиторию или другой объект.</p>
-    </div>
-
 </div>
-
-
 
 <script>
     document.addEventListener("DOMContentLoaded", async function () {
@@ -115,29 +111,40 @@
         });
     }
 
-    function findMapElements(svg, svgLabel, svgElementId, number) {
-        const allElements = svg.querySelectorAll("path, rect, polygon");
-        const result = [];
+    async function loadMapObject(building, floor, svgLabel, svgElementId) {
+        const params = new URLSearchParams();
 
-        allElements.forEach(element => {
-            const elementLabel = getSvgLabel(element);
-            const elementId = element.id;
+        params.append("building", building);
+        params.append("floor", floor);
 
-            const labelMatched =
-                svgLabel && elementLabel === svgLabel;
+        if (svgLabel) {
+            params.append("svgLabel", svgLabel);
+        }
 
-            const idMatched =
-                svgElementId && elementId === svgElementId;
+        if (svgElementId) {
+            params.append("svgElementId", svgElementId);
+        }
 
-            const numberMatched =
-                number && (elementLabel === number || elementId === number);
+        const response = await fetch(`/Maps/GetMapObject?${params.toString()}`);
 
-            if (labelMatched || idMatched || numberMatched) {
-                result.push(element);
-            }
-        });
+        if (!response.ok) {
+            document.getElementById("roomTitle").innerText = "Информация не найдена";
+            document.getElementById("roomType").innerText = "";
+            document.getElementById("roomDescription").innerText = "Для этого элемента SVG пока нет записи в базе данных.";
+            return;
+        }
 
-        return result;
+        const data = await response.json();
+
+        document.getElementById("roomTitle").innerText = data.number
+            ? `${data.number} — ${data.title}`
+            : data.title;
+
+        document.getElementById("roomType").innerText = data.type
+            ? `Тип: ${data.type}`
+            : "";
+
+        document.getElementById("roomDescription").innerText = data.description || "";
     }
 
     async function focusObjectFromQuery(svg, building, floor) {
@@ -175,138 +182,29 @@
         );
     }
 
-    async function loadMapObject(building, floor, svgLabel, svgElementId) {
-        const params = new URLSearchParams();
+    function findMapElements(svg, svgLabel, svgElementId, number) {
+        const allElements = svg.querySelectorAll("path, rect, polygon");
+        const result = [];
 
-        params.append("building", building);
-        params.append("floor", floor);
+        allElements.forEach(element => {
+            const elementLabel = getSvgLabel(element);
+            const elementId = element.id;
 
-        if (svgLabel) {
-            params.append("svgLabel", svgLabel);
-        }
+            const labelMatched =
+                svgLabel && elementLabel === svgLabel;
 
-        if (svgElementId) {
-            params.append("svgElementId", svgElementId);
-        }
+            const idMatched =
+                svgElementId && elementId === svgElementId;
 
-        const response = await fetch(`/Maps/GetMapObject?${params.toString()}`);
+            const numberMatched =
+                number && (elementLabel === number || elementId === number);
 
-        if (!response.ok) {
-            document.getElementById("roomTitle").innerText = "Информация не найдена";
-            document.getElementById("roomType").innerText = "";
-            document.getElementById("roomDescription").innerText = "Для этого элемента SVG пока нет записи в базе данных.";
-            return;
-        }
+            if (labelMatched || idMatched || numberMatched) {
+                result.push(element);
+            }
+        });
 
-        const data = await response.json();
-
-        document.getElementById("roomTitle").innerText = data.number
-            ? `${data.number} — ${data.title}`
-            : data.title;
-
-        document.getElementById("roomType").innerText = data.type
-            ? `Тип: ${data.type}`
-            : "";
-
-        document.getElementById("roomDescription").innerText = data.description || "";
+        return result;
     }
 </script>
 
-<style>
-    .map-page {
-        display: flex;
-        gap: 30px;
-        padding: 20px;
-    }
-
-    .floor-switcher {
-        position: fixed;
-        left: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: #070c6b;
-        border-radius: 30px;
-        padding: 10px 6px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        z-index: 10;
-    }
-
-    .floor-btn {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-decoration: none;
-        color: white;
-        font-size: 28px;
-        border: 2px solid transparent;
-        background: #2836c8;
-        transition: 0.2s;
-    }
-
-        .floor-btn:hover {
-            transform: scale(1.08);
-        }
-
-        .floor-btn.active {
-            border: 3px solid white;
-        }
-
-    .map-wrapper {
-        margin-left: 100px;
-        flex: 1;
-    }
-
-    .map-container {
-        width: 100%;
-        overflow: auto;
-    }
-
-    .map-svg {
-        width: 100%;
-        max-width: 1200px;
-        height: auto;
-    }
-
-    .map-clickable {
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-        .map-clickable:hover {
-            opacity: 0.75;
-            stroke: #1d4ed8;
-            stroke-width: 1;
-        }
-
-    .selected-room {
-        fill: #93c5fd !important;
-        stroke: #1d4ed8 !important;
-        stroke-width: 1.5 !important;
-    }
-
-    .room-panel {
-        width: 320px;
-        min-width: 320px;
-        min-height: 180px;
-        padding: 20px;
-        border-radius: 16px;
-        background: #f8fafc;
-        border: 1px solid #dbe3ef;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    }
-
-        .room-panel h3 {
-            margin-top: 0;
-            font-size: 22px;
-        }
-
-        .room-panel p {
-            margin: 8px 0;
-            font-size: 16px;
-        }
-</style>

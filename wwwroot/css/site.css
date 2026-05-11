@@ -268,3 +268,48 @@ body {
     stroke: #1d4ed8 !important;
     stroke-width: 1.5 !important;
 }
+
+
+
+
+
+
+/*    Кнопка зума   */
+.map-zoom-controls {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 1000;
+    display: flex;
+    overflow: hidden;
+    width: 110px;
+    height: 46px;
+    background: #ffffff;
+    border: 1px solid #d0d0d0;
+    border-radius: 999px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.zoom-btn {
+    width: 50%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+}
+
+    .zoom-btn:hover {
+        background: #f0f0f0;
+    }
+
+    .zoom-btn:active {
+        background: #e2e2e2;
+    }
+
+.zoom-in {
+    border-right: 1px solid #d0d0d0;
+}

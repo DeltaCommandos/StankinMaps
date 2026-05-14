@@ -188,6 +188,7 @@ body {
     border: 1px solid #dbe3ef;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     order: -1; /* Добавлено для размещения слева */
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
 }
 
     .room-panel h3 {
@@ -212,6 +213,7 @@ body {
     flex-direction: column;
     gap: 8px;
     z-index: 10;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
 }
 
 .floor-btn {
@@ -313,3 +315,39 @@ body {
 .zoom-in {
     border-right: 1px solid #d0d0d0;
 }
+
+
+
+
+/*    кнопка переключатель корпуса    */
+.map-page {
+    position: relative;
+}
+
+.building-switcher {
+    position: absolute;
+    top: 20px;
+    right: 4%; /* прямо над этажами */
+    z-index: 10;
+}
+
+.building-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150%;
+    height: 40px;
+    border-radius: 12px;
+    text-decoration: none;
+    background: #ffffff;
+    color: black;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s;
+    border-radius: 999px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+    .building-btn:hover {
+        transform: scale(1.05);
+    }

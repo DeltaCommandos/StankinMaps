@@ -3,6 +3,10 @@
     var floor = (int)ViewBag.Floor;
 
     var svgPath = $"/Maps/{building}/{floor}.svg";
+
+    var targetBuilding = building == "new"
+        ? "main"
+        : "new";
 }
 
 <div class="map-page">
@@ -19,6 +23,13 @@
         <h3 id="roomTitle">Выберите объект на карте</h3>
         <p id="roomType"></p>
         <p id="roomDescription">Нажмите на аудиторию или другой объект.</p>
+    </div>
+
+    <div class="building-switcher">
+        <a href="@Url.Action("Maps", "Maps", new { building = targetBuilding, floor = 1 })"
+           class="building-btn">
+            Сменить корпус
+        </a>
     </div>
 
     <div class="floor-switcher">

@@ -25,5 +25,4 @@
     <None Include="wwwroot\images\old.png" />
     <None Include="wwwroot\images\frezer.png" />
   </ItemGroup>
-
 </Project>

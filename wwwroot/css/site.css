@@ -244,6 +244,7 @@ body {
 }
 
 .map-container {
+    right: 100%;
     width: 100%;
     overflow: hidden;
 }
@@ -351,3 +352,45 @@ body {
     .building-btn:hover {
         transform: scale(1.05);
     }
+
+
+
+/*     В разработке     */
+.building-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.disabled-card {
+    pointer-events: none;
+    cursor: default;
+}
+
+    .disabled-card img,
+    .disabled-card p {
+        filter: blur(3px);
+    }
+
+    .disabled-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+        z-index: 1;
+    }
+
+.development-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    padding: 10px 18px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #222;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+}

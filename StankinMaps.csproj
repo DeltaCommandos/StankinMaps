@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Maps\Frezer\" />
-    <Folder Include="Maps\Old\" />
   </ItemGroup>
 
   <ItemGroup>

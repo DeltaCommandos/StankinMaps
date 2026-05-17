@@ -13,9 +13,23 @@ namespace StankinMaps.Controllers
             _context = context;
         }
 
-        public IActionResult Maps(string building = "main", int floor = 1)
+        public IActionResult Maps(string building = "new", int floor = 1)
         {
-            building = building?.ToLower();
+            building = building?.ToLower() ?? "new";
+
+            int maxFloor = building == "old"
+                ? 5
+                : 9;
+
+            if (floor < 1)
+            {
+                floor = 1;
+            }
+
+            if (floor > maxFloor)
+            {
+                floor = maxFloor;
+            }
 
             ViewBag.Building = building;
             ViewBag.Floor = floor;

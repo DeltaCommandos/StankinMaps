@@ -1,6 +1,10 @@
 @{
-    var building = ViewBag.Building?.ToString() ?? "main";
+    var building = ViewBag.Building?.ToString()?.ToLower() ?? "new";
     var floor = (int)ViewBag.Floor;
+
+    var floorCount = building == "old"
+        ? 5
+        : 9;
 
     var svgPath = $"/Maps/{building}/{floor}.svg";
 
@@ -33,7 +37,7 @@
     </div>
 
     <div class="floor-switcher">
-        @for (int i = 9; i >= 1; i--)
+        @for (int i = floorCount; i >= 1; i--)
         {
             <a href="@Url.Action("Maps", "Maps", new { building = building, floor = i })"
                class="floor-btn @(i == floor ? "active" : "")">

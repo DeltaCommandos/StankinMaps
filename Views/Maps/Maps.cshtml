@@ -106,6 +106,7 @@
         });
 
         await focusObjectFromQuery(svg, building, floor);
+        initMapSearch();
         // const selectedExists = svg.querySelector(".selected-room");
 
         // if (!selectedExists && clickableElements.length > 0) {
@@ -341,6 +342,129 @@
             svg.style.transformOrigin = "center center";
             svg.style.cursor = "grab";
         }
+    }
+
+
+    function initMapSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const searchButton = document.getElementById("searchButton");
+
+        if (!searchInput) {
+            return;
+        }
+
+        async function runSearch() {
+            const query = searchInput.value.trim();
+
+            if (!query) {
+                return;
+            }
+
+            await searchMapObject(query);
+        }
+
+        // Поиск по Enter
+        searchInput.addEventListener("keydown", async function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                await runSearch();
+            }
+        });
+
+        // Поиск по кнопке
+        if (searchButton) {
+            searchButton.addEventListener("click", async function (event) {
+                event.preventDefault();
+                await runSearch();
+            });
+        }
+    }
+
+    async function searchMapObject(query) {
+        const response = await fetch(`/Maps/SearchMapObject?query=${encodeURIComponent(query)}`);
+
+        if (!response.ok) {
+            document.getElementById("roomTitle").innerText = "Объект не найден";
+            document.getElementById("roomType").innerText = "";
+            document.getElementById("roomDescription").innerText = "Попробуйте ввести другой номер или название.";
+            return;
+        }
+
+        const result = await response.json();
+
+        const container = document.getElementById("mapContainer");
+
+        const currentBuilding = container.dataset.building.toLowerCase();
+        const currentFloor = Number(container.dataset.floor);
+
+        const targetBuilding = String(result.building || "").toLowerCase();
+        const targetFloor = Number(result.floor);
+
+        // Если объект в другом корпусе или на другом этаже — переходим туда
+        if (currentBuilding !== targetBuilding || currentFloor !== targetFloor) {
+            const params = new URLSearchParams();
+
+            params.append("building", targetBuilding);
+            params.append("floor", targetFloor);
+
+            if (result.svgLabel) {
+                params.append("focusSvgLabel", result.svgLabel);
+            }
+
+            if (result.svgElementId) {
+                params.append("focusSvgElementId", result.svgElementId);
+            }
+
+            if (result.number) {
+                params.append("focusNumber", result.number);
+            }
+
+            window.location.href = `/Maps/Maps?${params.toString()}`;
+            return;
+        }
+
+        // Если объект уже на текущей карте — просто выделяем его
+        await focusFoundObject(result);
+    }
+
+    async function focusFoundObject(result) {
+        const container = document.getElementById("mapContainer");
+        const svg = container.querySelector("svg");
+
+        if (!svg) {
+            return;
+        }
+
+        const building = container.dataset.building;
+        const floor = container.dataset.floor;
+
+        const elements = findMapElements(
+            svg,
+            result.svgLabel,
+            result.svgElementId,
+            result.number
+        );
+
+        if (elements.length > 0) {
+            clearSelected(svg);
+
+            elements.forEach(element => {
+                element.classList.add("selected-room");
+            });
+
+            elements[0].scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+                inline: "center"
+            });
+        }
+
+        await loadMapObject(
+            building,
+            floor,
+            result.svgLabel || result.number,
+            result.svgElementId || result.number
+        );
     }
 </script>
 

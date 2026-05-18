@@ -49,7 +49,7 @@ namespace StankinMaps.Controllers
 
             var mapObject = await _context.MapObjects
                 .Where(x =>
-                    x.FloorMap.Building.Code == building &&
+                    EF.Functions.ILike(x.FloorMap.Building.Code, building) &&
                     x.FloorMap.FloorNumber == floor &&
                     x.IsClickable &&
                     (
@@ -89,19 +89,41 @@ namespace StankinMaps.Controllers
             query = query.Trim();
             var pattern = $"%{query}%";
 
+            string? targetBuilding = null;
+
+            // Если запрос начинается с цифры,
+            // считаем, что пользователь ищет аудиторию по номеру.
+            // 0... = новый корпус
+            // не 0... = старый корпус
+            if (char.IsDigit(query[0]))
+            {
+                targetBuilding = query.StartsWith("0")
+                    ? "new"
+                    : "old";
+            }
+
             var result = await _context.MapObjects
                 .Where(x =>
                     x.IsSearchable &&
+
+                    // Если это номер аудитории — ищем только в нужном корпусе
+                    (targetBuilding == null || EF.Functions.ILike(x.FloorMap.Building.Code, targetBuilding)) &&
+
                     (
-                        x.Number != null && EF.Functions.ILike(x.Number, pattern) ||
-                        EF.Functions.ILike(x.Title, pattern) ||
-                        x.Description != null && EF.Functions.ILike(x.Description, pattern) ||
+                        (x.Number != null && EF.Functions.ILike(x.Number, pattern)) ||
+
+                        (x.Title != null && EF.Functions.ILike(x.Title, pattern)) ||
+
+                        (x.Description != null && EF.Functions.ILike(x.Description, pattern)) ||
+
                         x.SvgElements.Any(s =>
-                            s.SvgLabel != null && EF.Functions.ILike(s.SvgLabel, pattern) ||
-                            s.SvgElementId != null && EF.Functions.ILike(s.SvgElementId, pattern)
+                            (s.SvgLabel != null && EF.Functions.ILike(s.SvgLabel, pattern)) ||
+                            (s.SvgElementId != null && EF.Functions.ILike(s.SvgElementId, pattern))
                         )
-                    ))
+                    )
+                )
                 .OrderByDescending(x => x.Number == query)
+                .ThenByDescending(x => x.Number != null && x.Number.StartsWith(query))
                 .ThenBy(x => x.Number)
                 .Select(x => new
                 {
@@ -111,7 +133,11 @@ namespace StankinMaps.Controllers
                     description = x.Description,
                     type = x.ObjectType.Name,
 
-                    building = x.FloorMap.Building.Code,
+                    // Возвращаем корпус:
+                    // если искали по номеру — по правилу 0 / не 0,
+                    // иначе берём корпус из базы
+                    building = targetBuilding ?? x.FloorMap.Building.Code,
+
                     floor = x.FloorMap.FloorNumber,
 
                     svgLabel = x.SvgElements

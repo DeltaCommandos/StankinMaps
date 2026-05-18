@@ -101,6 +101,13 @@
                 clearSelected(svg);
                 element.classList.add("selected-room");
 
+                console.log("CLICKED SVG OBJECT:", {
+                    building: building,
+                    floor: floor,
+                    svgLabel: svgLabel,
+                    svgElementId: svgElementId
+                });
+
                 await loadMapObject(building, floor, svgLabel, svgElementId);
             });
         });

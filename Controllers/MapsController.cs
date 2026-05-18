@@ -43,9 +43,16 @@ namespace StankinMaps.Controllers
             int floor,
             string? svgLabel,
             string? svgElementId)
-
         {
-            building = building?.ToLower();
+            building = building?.Trim().ToLower() ?? "";
+
+            svgLabel = string.IsNullOrWhiteSpace(svgLabel)
+                ? null
+                : svgLabel.Trim();
+
+            svgElementId = string.IsNullOrWhiteSpace(svgElementId)
+                ? null
+                : svgElementId.Trim();
 
             var mapObject = await _context.MapObjects
                 .Where(x =>
@@ -54,11 +61,29 @@ namespace StankinMaps.Controllers
                     x.IsClickable &&
                     (
                         x.SvgElements.Any(s =>
-                            !string.IsNullOrEmpty(svgLabel) && s.SvgLabel == svgLabel ||
-                            !string.IsNullOrEmpty(svgElementId) && s.SvgElementId == svgElementId
+                            (
+                                svgLabel != null &&
+                                s.SvgLabel != null &&
+                                EF.Functions.ILike(s.SvgLabel, svgLabel)
+                            ) ||
+                            (
+                                svgElementId != null &&
+                                s.SvgElementId != null &&
+                                EF.Functions.ILike(s.SvgElementId, svgElementId)
+                            )
                         ) ||
-                        !string.IsNullOrEmpty(svgLabel) && x.Number == svgLabel ||
-                        !string.IsNullOrEmpty(svgElementId) && x.Number == svgElementId
+
+                        (
+                            svgLabel != null &&
+                            x.Number != null &&
+                            EF.Functions.ILike(x.Number, svgLabel)
+                        ) ||
+
+                        (
+                            svgElementId != null &&
+                            x.Number != null &&
+                            EF.Functions.ILike(x.Number, svgElementId)
+                        )
                     ))
                 .Select(x => new
                 {

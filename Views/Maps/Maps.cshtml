@@ -29,6 +29,19 @@
         <p id="roomDescription">Нажмите на аудиторию или другой объект.</p>
     </div>
 
+    <div id="panoramaModal" class="panorama-modal hidden">
+        <div class="panorama-window">
+            <button id="closePanoramaBtn" class="panorama-close">×</button>
+
+            <div class="panorama-header">
+                <h3 id="panoramaTitle">Панорама</h3>
+                <p id="panoramaDescription"></p>
+            </div>
+
+            <div id="panoramaViewer" class="panorama-viewer"></div>
+        </div>
+    </div>
+
     <div class="building-switcher">
         <a href="@Url.Action("Maps", "Maps", new { building = targetBuilding, floor = 1 })"
            class="building-btn">
@@ -50,6 +63,11 @@
         <button type="button" id="zoomInBtn" class="zoom-btn zoom-in">+</button>
         <button type="button" id="zoomOutBtn" class="zoom-btn zoom-out">−</button>
     </div>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.css">
+    <script src="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.js"></script>
+
+    <script src="~/js/panorama.js"></script>
 </div>
 
 <script>

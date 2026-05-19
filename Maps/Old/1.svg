@@ -23,15 +23,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
-     inkscape:zoom="1.0771772"
-     inkscape:cx="300.78617"
-     inkscape:cy="290.11011"
+     inkscape:zoom="3.0467172"
+     inkscape:cx="302.94902"
+     inkscape:cy="172.80895"
      inkscape:window-width="1920"
      inkscape:window-height="1057"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer2" /><defs
+     inkscape:current-layer="layer3" /><defs
      id="defs1" /><path
      style="display:inline;fill:#ffffff;fill-opacity:1;stroke-width:0.264583"
      d="M 8.0763157,27.007894 3.9947368,63.13421 17.889473,62.960524 l -0.08684,51.757896 10.942104,-0.0868 -0.260524,-5.12369 24.836842,0.0868 0.08684,-13.026312 17.281578,0.173685 0.260527,14.849997 42.46579,-0.17368 -0.0868,-43.073686 26.13948,0.08684 -0.0868,7.381579 67.56316,-0.08684 L 206.85789,33 l -93.62405,0.03677 -0.12281,-4.052838 -8.84255,0.245626 v 3.561586 L 70.863263,32.54552 70.986075,27.141736 Z"
@@ -235,74 +235,116 @@
      inkscape:label="Rooms"
      style="display:inline"
      transform="matrix(1.0114812,0,0,1,-0.03178661,0)"><path
-       style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
-       d="m 53.213055,67.056052 15.966631,0.184219 0.242838,14.737593 -16.330889,-0.122812 z"
-       id="135э"
-       inkscape:label="135э" />
+   style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
+   d="m 53.213055,67.056052 15.966631,0.184219 0.242838,14.737593 -16.330889,-0.122812 z"
+   id="135э"
+   inkscape:label="135э" />
     <path
-            style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
-            d="m 53.091635,83.390218 16.148758,0.122811 v 11.974296 l -15.7845,-0.122812 z"
-            id="135н"
-            inkscape:label="135н" />
+   style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
+   d="m 53.091635,83.390218 16.148758,0.122811 v 11.974296 l -15.7845,-0.122812 z"
+   id="135н"
+   inkscape:label="135н" />
     <path
-            style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
-            d="m 95.649079,74.609067 15.359531,0.06141 v 25.913603 l -6.3138,-0.0614 0.0607,9.82506 h -9.227859 z"
-            id="ЛГ"
-            inkscape:label="ЛГ" />
+   style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
+   d="m 95.649079,74.609067 15.359531,0.06141 v 25.913603 l -6.3138,-0.0614 0.0607,9.82506 h -9.227859 z"
+   id="ЛГ"
+   inkscape:label="ЛГ" />
     <path
-            style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
-            d="m 94.131339,55.634416 -11.231281,-0.184219 0.09627,22.955547 -6.531492,-0.05087 0.121418,4.298465 6.131672,-0.06141 v 1.535166 l -6.25309,-0.0614 0.121418,10.500535 4.79606,-0.122815 v -2.886112 h 1.396322 l -0.242838,18.913247 h 11.656247 z"
-            id="ТП-6"
-            sodipodi:nodetypes="ccccccccccccccc"
-            inkscape:label="ТП-6" />
+   style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
+   d="m 94.131339,55.634416 -11.231281,-0.184219 0.09627,22.955547 -6.531492,-0.05087 0.121418,4.298465 6.131672,-0.06141 v 1.535166 l -6.25309,-0.0614 0.121418,10.500535 4.79606,-0.122815 v -2.886112 h 1.396322 l -0.242838,18.913247 h 11.656247 z"
+   id="ТП-6"
+   sodipodi:nodetypes="ccccccccccccccc"
+   inkscape:label="ТП-6" />
     <path
-            style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
-            d="m 95.466951,55.695823 3.703286,0.06141 0.06071,17.316672 -3.703286,-0.06141 z"
-            id="Серверная"
-            inkscape:label="Серверная" />
+   style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
+   d="m 95.466951,55.695823 3.703286,0.06141 0.06071,17.316672 -3.703286,-0.06141 z"
+   id="Серверная"
+   inkscape:label="Серверная" />
     <path
-            style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
-            d="m 104.26106,55.665787 7.04022,0.08684 -0.0429,5.774999 -3.43425,-0.04342 0.0429,-3.473685 h -3.69183 z"
-            id="1Туалет"
-            inkscape:label="1Туалет" />
+   style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
+   d="m 104.26106,55.665787 7.04022,0.08684 -0.0429,5.774999 -3.43425,-0.04342 0.0429,-3.473685 h -3.69183 z"
+   id="1Туалет"
+   inkscape:label="1Туалет" />
     <path
-            style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
-            d="m 100.39752,55.752632 2.44691,-0.04342 v 3.734213 l 3.86354,-0.04342 -0.0859,6.209213 1.20199,-0.130265 v -2.865789 h 3.47718 l -0.17171,10.638157 -10.56033,-0.04342 z"
-            id="1Туалет"
-            inkscape:label="1Туалет" />
+   style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
+   d="m 100.39752,55.752632 2.44691,-0.04342 v 3.734213 l 3.86354,-0.04342 -0.0859,6.209213 1.20199,-0.130265 v -2.865789 h 3.47718 l -0.17171,10.638157 -10.56033,-0.04342 z"
+   id="path53"
+   inkscape:label="1Туалет" />
     <path
-            style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
-            d="m 112.40494,55.818637 0.0607,11.636558 h 16.39159 l -0.12142,-11.544448 z"
-            id="Эко"
-            inkscape:label="Эко" />
+   style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
+   d="m 112.40494,55.818637 0.0607,11.636558 h 16.39159 l -0.12142,-11.544448 z"
+   id="Эко"
+   inkscape:label="Эко" />
     <path
-            style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
-            d="m 31.111432,28.006579 0.08586,14.50263 L 7.5364929,42.194727 9.2033268,28.05 Z"
-            id="ТП-8"
-            sodipodi:nodetypes="ccccc"
-            inkscape:label="ТП-8" />
+   style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
+   d="m 31.111432,28.006579 0.08586,14.50263 L 7.5364929,42.194727 9.2033268,28.05 Z"
+   id="ТП-8"
+   sodipodi:nodetypes="ccccc"
+   inkscape:label="ТП-8" />
     <path
-            style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
-            d="m 45.707014,28.093421 0.08586,2.561841 -3.563037,0.130263 0.08586,8.423685 h 3.176686 l 0.04293,5.036841 24.069348,0.15095 -0.182127,-3.193145 H 63.837237 L 63.715819,28.062835 Z"
-            id="ТП-7"
-            inkscape:label="ТП-7" />
+   style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
+   d="m 45.707014,28.093421 0.08586,2.561841 -3.563037,0.130263 0.08586,8.423685 h 3.176686 l 0.04293,5.036841 24.069348,0.15095 -0.182127,-3.193145 H 63.837237 L 63.715819,28.062835 Z"
+   id="ТП-7"
+   inkscape:label="ТП-7" />
     <path
-            style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
-            d="m 70.879553,33.220993 -0.06071,11.728667 31.751137,0.552661 V 33.405212 Z"
-            id="ТП-5б"
-            inkscape:label="ТП-5б" />
+   style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
+   d="m 70.879553,33.220993 -0.06071,11.728667 31.751137,0.552661 V 33.405212 Z"
+   id="ТП-5б"
+   inkscape:label="ТП-5б" />
     <path
-            style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
-            d="m 112.40494,33.74295 0.0607,11.912888 20.45914,0.0307 0.0607,-11.790074 z"
-            id="ТП-5а"
-            inkscape:label="ТП-5а" />
+   style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
+   d="m 112.40494,33.74295 0.0607,11.912888 20.45914,0.0307 0.0607,-11.790074 z"
+   id="ТП-5а"
+   inkscape:label="ТП-5а" />
     <path
-            style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
-            d="m 139.03289,34.128948 -0.25757,11.463157 64.90741,0.173683 -0.0858,-6.773685 -7.81293,-0.08684 v -4.776314 z"
-            id="ТП-4"
-            inkscape:label="ТП-4" />
+   style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
+   d="m 139.03289,34.128948 -0.25757,11.463157 64.90741,0.173683 -0.0858,-6.773685 -7.81293,-0.08684 v -4.776314 z"
+   id="ТП-4"
+   inkscape:label="ТП-4" />
     <path
-            style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
-            d="m 203.25345,47.155261 0.0859,10.681581 -7.4695,-0.08684 v 17.021053 l -52.97338,-0.08684 -0.0859,-9.11842 -4.20696,0.08684 v -3.994738 l 9.01491,-0.08684 0.0859,-14.589474 z"
-            id="ТП-5"
-            inkscape:label="ТП-5" /></g></svg>
+   style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.263077"
+   d="m 203.25345,47.155261 0.0859,10.681581 -7.4695,-0.08684 v 17.021053 l -52.97338,-0.08684 -0.0859,-9.11842 -4.20696,0.08684 v -3.994738 l 9.01491,-0.08684 0.0859,-14.589474 z"
+   id="ТП-5"
+   inkscape:label="ТП-5" /><g
+   id="pano_hall_1-1"
+   class="panorama-point"
+   transform="matrix(0.26013367,0,0,0.26312031,-93.39112,-26.129332)"
+   style="display:inline"
+   inkscape:label="pano_hall_1-1">
+    <circle
+   cx="500"
+   cy="300"
+   r="12"
+   fill="#1d4ed8"
+   id="circle1"
+   style="fill:#03004c;fill-opacity:1" />
+    <text
+   x="500.03314"
+   y="303.45728"
+   text-anchor="middle"
+   fill="#ffffff"
+   font-size="9.75619px"
+   id="text1"
+   style="stroke-width:0.696871">360</text>
+    </g><g
+   id="pano_hall_1-2"
+   class="panorama-point"
+   transform="matrix(0.26013367,0,0,0.26312031,-35.548535,-28.434461)"
+   style="display:inline"
+   inkscape:label="pano_hall_1-2">
+    <circle
+   cx="500"
+   cy="300"
+   r="12"
+   fill="#1d4ed8"
+   id="circle1-2"
+   style="fill:#03004c;fill-opacity:1" />
+    <text
+   x="500.03314"
+   y="303.45728"
+   text-anchor="middle"
+   fill="#ffffff"
+   font-size="9.75619px"
+   id="text1-4"
+   style="stroke-width:0.696871">360</text>
+    </g></g></svg>

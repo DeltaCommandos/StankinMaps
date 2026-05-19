@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.EntityFrameworkCore;
 using StankinMaps.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -22,6 +23,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 var app = builder.Build();
 app.UseStaticFiles();
+
+
+var panoramasPath = Path.Combine(app.Environment.ContentRootPath, "Panoramas");
+
+if (!Directory.Exists(panoramasPath))
+{
+    Directory.CreateDirectory(panoramasPath);
+}
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(panoramasPath),
+    RequestPath = "/Panoramas"
+});
 
 app.UseStaticFiles(new StaticFileOptions
 {

@@ -1,0 +1,62 @@
+﻿body {
+}
+
+.panorama-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .panorama-modal.hidden {
+        display: none;
+    }
+
+.panorama-window {
+    width: 90vw;
+    height: 85vh;
+    background: #ffffff;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.panorama-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+    .panorama-header h3 {
+        margin: 0;
+        font-size: 20px;
+    }
+
+    .panorama-header p {
+        margin: 4px 0 0;
+        color: #6b7280;
+    }
+
+.panorama-viewer {
+    flex: 1;
+    width: 100%;
+}
+
+.panorama-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: #111827;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}

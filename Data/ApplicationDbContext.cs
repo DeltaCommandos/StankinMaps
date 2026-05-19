@@ -9,7 +9,8 @@ public class ApplicationDbContext : DbContext
         : base(options)
     {
     }
-
+    public DbSet<Panorama> Panoramas { get; set; }
+    public DbSet<PanoramaHotspot> PanoramaHotspots { get; set; }
     public DbSet<Building> Buildings => Set<Building>();
     public DbSet<FloorMap> FloorMaps => Set<FloorMap>();
     public DbSet<MapObjectType> MapObjectTypes => Set<MapObjectType>();

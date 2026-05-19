@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Maps\Frezer\" />
+    <Folder Include="Panoramas\" />
   </ItemGroup>
 
   <ItemGroup>

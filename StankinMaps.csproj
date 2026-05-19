@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Panoramas\new - Копировать\**" />
+    <Content Remove="Panoramas\new - Копировать\**" />
+    <EmbeddedResource Remove="Panoramas\new - Копировать\**" />
+    <None Remove="Panoramas\new - Копировать\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="9.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.15">
@@ -18,7 +25,8 @@
 
   <ItemGroup>
     <Folder Include="Maps\Frezer\" />
-    <Folder Include="Panoramas\" />
+    <Folder Include="Panoramas\new\" />
+    <Folder Include="Panoramas\frezer\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -26,17 +26,40 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+//async function openPanoramaByMapObject(building, floor, svgObjectId) {
+//    const response = await fetch(`/Panoramas/GetByMapObject?building=${building}&floor=${floor}&svgObjectId=${svgObjectId}`);
+
+//    if (!response.ok) {
+//        alert("Для этого объекта панорама пока не добавлена.");
+//        return;
+//    }
+
+//    const data = await response.json();
+//    showPanorama(data);
+//}
+
 async function openPanoramaByMapObject(building, floor, svgObjectId) {
-    const response = await fetch(`/Panoramas/GetByMapObject?building=${building}&floor=${floor}&svgObjectId=${svgObjectId}`);
+    const url = `/Panoramas/GetByMapObject?building=${building}&floor=${floor}&svgObjectId=${svgObjectId}`;
+
+    console.log("Panorama request:", url);
+
+    const response = await fetch(url);
+
+    console.log("Panorama response status:", response.status);
 
     if (!response.ok) {
-        alert("Для этого объекта панорама пока не добавлена.");
+        alert(`Для этого объекта панорама пока не добавлена.\n\nЗапрос: ${url}\nСтатус: ${response.status}`);
         return;
     }
 
     const data = await response.json();
+
+    console.log("Panorama data:", data);
+
     showPanorama(data);
 }
+
+
 
 async function openPanoramaById(id) {
     const response = await fetch(`/Panoramas/GetById?id=${id}`);

@@ -306,7 +306,7 @@
    d="m 203.25345,47.155261 0.0859,10.681581 -7.4695,-0.08684 v 17.021053 l -52.97338,-0.08684 -0.0859,-9.11842 -4.20696,0.08684 v -3.994738 l 9.01491,-0.08684 0.0859,-14.589474 z"
    id="ТП-5"
    inkscape:label="ТП-5" /><g
-   id="pano_hall_1-1"
+   id="pano_hall_1"
    class="panorama-point"
    transform="matrix(0.26013367,0,0,0.26312031,-93.39112,-26.129332)"
    style="display:inline"
@@ -327,7 +327,7 @@
    id="text1"
    style="stroke-width:0.696871">360</text>
     </g><g
-   id="pano_hall_1-2"
+   id="pano_hall_2"
    class="panorama-point"
    transform="matrix(0.26013367,0,0,0.26312031,-35.548535,-28.434461)"
    style="display:inline"

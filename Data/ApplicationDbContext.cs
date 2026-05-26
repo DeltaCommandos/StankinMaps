@@ -17,10 +17,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<MapObject> MapObjects => Set<MapObject>();
     public DbSet<MapObjectSvgElement> MapObjectSvgElements => Set<MapObjectSvgElement>();
 
-    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //{
-    //    optionsBuilder.UseNpgsql("Host=db;Port=5432;Database=Stankin_Maps;Username=postgres;Password=123");
-    //}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

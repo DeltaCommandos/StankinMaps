@@ -27,6 +27,7 @@
     <Folder Include="Maps\Frezer\" />
     <Folder Include="Panoramas\new\" />
     <Folder Include="Panoramas\frezer\" />
+    <Folder Include="Panoramas\old\1\" />
   </ItemGroup>
 
   <ItemGroup>

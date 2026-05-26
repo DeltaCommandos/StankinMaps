@@ -23,15 +23,16 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
-     inkscape:zoom="3.0467172"
-     inkscape:cx="285.22503"
-     inkscape:cy="262.74181"
+     inkscape:zoom="2.1543544"
+     inkscape:cx="470.21047"
+     inkscape:cy="246.70964"
      inkscape:window-width="1920"
      inkscape:window-height="1057"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="pano_hall_8-1" /><defs
+     inkscape:current-layer="layer2"
+     showguides="false" /><defs
      id="defs1" /><g
      inkscape:label="pic"
      inkscape:groupmode="layer"
@@ -177,7 +178,70 @@
      id="layer3"
      inkscape:label="Rooms"
      style="display:inline"
-     transform="matrix(1.0114812,0,0,1,-0.03178661,0)"><path
+     transform="matrix(1.0114812,0,0,1,-0.03178661,0)"><g
+       id="pano_hall_8"
+       class="panorama-point"
+       transform="matrix(0.16242284,0,0,0.16428767,89.967138,28.108661)"
+       style="display:inline"
+       inkscape:label="pano_hall_8-1">
+    <circle
+   cx="500"
+   cy="300"
+   r="12"
+   fill="#1d4ed8"
+   id="circle1"
+   style="fill:#03004c;fill-opacity:1" />
+    <text
+   x="500.03314"
+   y="303.45728"
+   text-anchor="middle"
+   fill="#ffffff"
+   font-size="9.75619px"
+   id="text1"
+   style="stroke-width:0.696871">360</text>
+    </g><g
+       id="pano_hall_82"
+       class="panorama-point"
+       transform="matrix(0.16242284,0,0,0.16428767,31.031213,27.419252)"
+       style="display:inline"
+       inkscape:label="pano_hall_8-2">
+    <circle
+   cx="500"
+   cy="300"
+   r="12"
+   fill="#1d4ed8"
+   id="circle1-2"
+   style="fill:#03004c;fill-opacity:1" />
+    <text
+   x="500.03314"
+   y="303.45728"
+   text-anchor="middle"
+   fill="#ffffff"
+   font-size="9.75619px"
+   id="text1-4"
+   style="stroke-width:0.696871">360</text>
+    </g><g
+       id="pano_hall_83"
+       class="panorama-point"
+       transform="matrix(0.16242284,0,0,0.16428767,-18.576069,26.364566)"
+       style="display:inline"
+       inkscape:label="pano_hall_8-3">
+    <circle
+   cx="500"
+   cy="300"
+   r="12"
+   fill="#1d4ed8"
+   id="circle1-1"
+   style="fill:#03004c;fill-opacity:1" />
+    <text
+   x="500.03314"
+   y="303.45728"
+   text-anchor="middle"
+   fill="#ffffff"
+   font-size="9.75619px"
+   id="text1-5"
+   style="stroke-width:0.696871">360</text>
+    </g><path
        style="fill:#e7e7e7;fill-opacity:1;stroke-width:0.27316"
        d="m 4.7421763,101.1998 -0.378219,29.07465 56.2285327,0.12752 0.378217,-28.69209"
        id="0801"
@@ -225,67 +289,4 @@
        style="display:inline;fill:#ffffff;fill-opacity:1;stroke-width:0.27316"
        d="m 70.391768,58.380279 -0.178294,10.27945 3.387588,-0.0901 -0.08915,1.98375 h -3.833323 v 10.36962 l 3.922469,-0.18035 v 2.52478 l -2.585264,-0.0901 v 9.46791 l 6.418586,0.0901 v -9.55807 l -1.693794,0.0901 -0.08914,-2.52477 h 6.596881 l -0.445735,2.34444 -2.050383,-0.0901 -0.08915,10.00894 6.686027,-0.0901 -0.08915,-10.0991 H 84.38785 l -0.178296,-2.1641 5.972854,0.0901 v 2.07392 l -1.515502,-0.0901 v 10.45978 h 6.686028 l -0.08914,-10.27945 h -2.941853 v -1.98374 l 3.56588,0.0901 0.178296,-10.00893 h -4.011618 l 0.267442,-1.89359 2.852703,-0.36068 0.178295,-10.00893 -6.775173,-0.45085 0.267439,10.45978 1.426354,0.36068 -0.08915,1.5329 -6.062,-0.0901 -0.08915,-1.71324 2.496117,-0.18034 v -10.09911 l -6.864323,-0.18033 0.178296,10.27944 h 2.228674 l -0.08915,2.07393 -6.507735,-0.27052 0.356589,-1.98375 h 1.782943 l 0.08914,-10.0991"
        id="elevator8"
-       inkscape:label="elevator8" /><g
-       id="pano_hall_8"
-       class="panorama-point"
-       transform="matrix(0.16242284,0,0,0.16428767,89.967139,28.108662)"
-       style="display:inline"
-       inkscape:label="pano_hall_8-1">
-    <circle
-   cx="500"
-   cy="300"
-   r="12"
-   fill="#1d4ed8"
-   id="circle1"
-   style="fill:#03004c;fill-opacity:1" />
-    <text
-   x="500.03314"
-   y="303.45728"
-   text-anchor="middle"
-   fill="#ffffff"
-   font-size="9.75619px"
-   id="text1"
-   style="stroke-width:0.696871">360</text>
-    </g><g
-       id="pano_hall_82"
-       class="panorama-point"
-       transform="matrix(0.16242284,0,0,0.16428767,31.031212,27.419252)"
-       style="display:inline"
-       inkscape:label="pano_hall_8-2">
-    <circle
-   cx="500"
-   cy="300"
-   r="12"
-   fill="#1d4ed8"
-   id="circle1-2"
-   style="fill:#03004c;fill-opacity:1" />
-    <text
-   x="500.03314"
-   y="303.45728"
-   text-anchor="middle"
-   fill="#ffffff"
-   font-size="9.75619px"
-   id="text1-4"
-   style="stroke-width:0.696871">360</text>
-    </g><g
-       id="pano_hall_83"
-       class="panorama-point"
-       transform="matrix(0.16242284,0,0,0.16428767,-18.576069,26.364566)"
-       style="display:inline"
-       inkscape:label="pano_hall_8-3">
-    <circle
-   cx="500"
-   cy="300"
-   r="12"
-   fill="#1d4ed8"
-   id="circle1-1"
-   style="fill:#03004c;fill-opacity:1" />
-    <text
-   x="500.03314"
-   y="303.45728"
-   text-anchor="middle"
-   fill="#ffffff"
-   font-size="9.75619px"
-   id="text1-5"
-   style="stroke-width:0.696871">360</text>
-    </g></g></svg>
+       inkscape:label="elevator8" /></g></svg>

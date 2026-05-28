@@ -116,10 +116,6 @@ namespace StankinMaps.Controllers
 
             string? targetBuilding = null;
 
-            // Если запрос начинается с цифры,
-            // считаем, что пользователь ищет аудиторию по номеру.
-            // 0... = новый корпус
-            // не 0... = старый корпус
             if (char.IsDigit(query[0]))
             {
                 targetBuilding = query.StartsWith("0")
@@ -131,7 +127,6 @@ namespace StankinMaps.Controllers
                 .Where(x =>
                     x.IsSearchable &&
 
-                    // Если это номер аудитории — ищем только в нужном корпусе
                     (targetBuilding == null || EF.Functions.ILike(x.FloorMap.Building.Code, targetBuilding)) &&
 
                     (
@@ -158,9 +153,6 @@ namespace StankinMaps.Controllers
                     description = x.Description,
                     type = x.ObjectType.Name,
 
-                    // Возвращаем корпус:
-                    // если искали по номеру — по правилу 0 / не 0,
-                    // иначе берём корпус из базы
                     building = targetBuilding ?? x.FloorMap.Building.Code,
 
                     floor = x.FloorMap.FloorNumber,

@@ -25,8 +25,9 @@
 
   <ItemGroup>
     <Folder Include="Maps\Frezer\" />
-    <Folder Include="Panoramas\new\" />
     <Folder Include="Panoramas\frezer\" />
+    <Folder Include="Panoramas\new\1\" />
+    <Folder Include="Panoramas\new\2\" />
     <Folder Include="Panoramas\old\1\" />
   </ItemGroup>
 

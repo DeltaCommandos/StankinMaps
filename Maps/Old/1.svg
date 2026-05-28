@@ -23,15 +23,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
-     inkscape:zoom="5.6568543"
-     inkscape:cx="424.26407"
-     inkscape:cy="233.25685"
+     inkscape:zoom="2.8284272"
+     inkscape:cx="374.05948"
+     inkscape:cy="193.57048"
      inkscape:window-width="1920"
      inkscape:window-height="1057"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer2" /><defs
+     inkscape:current-layer="layer3" /><defs
      id="defs1" /><path
      style="display:inline;fill:#ffffff;fill-opacity:1;stroke-width:0.127102"
      d="m 113.72783,51.483307 -1.96075,17.354743 6.67491,-0.08344 -0.0418,24.86401 5.25649,-0.0417 -0.12515,-2.461373 11.93139,0.04169 0.0417,-6.257718 8.3019,0.08344 0.12516,7.133799 20.40017,-0.08343 -0.0417,-20.692197 12.55717,0.04171 -0.0417,3.546042 32.45671,-0.04171 -0.0418,-20.525321 -44.97612,0.01766 -0.059,-1.946945 -4.24788,0.117997 v 1.710952 l -16.04752,-0.117995 0.059,-2.595928 z"
@@ -478,7 +478,7 @@
    id="pano_hall_1"
    class="panorama-point"
    transform="matrix(0.08372118,0,0,0.08468241,84.664288,40.599745)"
-   style="display:inline"
+   style="display:none"
    inkscape:label="pano_hall_1-1">
     <circle
    cx="500"
@@ -498,7 +498,7 @@
     </g><g
    id="pano_hall_2"
    class="panorama-point"
-   transform="matrix(0.07684709,0,0,0.07772937,115.59966,39.450663)"
+   transform="matrix(0.07684709,0,0,0.07772937,68.122876,37.995455)"
    style="display:inline"
    inkscape:label="pano_hall_1-2">
     <circle

@@ -18,8 +18,11 @@ namespace StankinMaps.Controllers
             building = building?.ToLower() ?? "new";
 
             int maxFloor = building == "old"
-                ? 5
+                ? 6
                 : 9;
+
+            
+
 
             if (floor < 1)
             {

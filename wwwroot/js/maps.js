@@ -1,0 +1,412 @@
+﻿
+document.addEventListener("DOMContentLoaded", async function () {
+    const container = document.getElementById("mapContainer");
+
+    if (!container) {
+            return;
+        }
+
+    const svgPath = container.dataset.svg;
+    const building = container.dataset.building;
+    const floor = container.dataset.floor;
+
+    const response = await fetch(svgPath);
+    const svgText = await response.text();
+
+    container.innerHTML = svgText;
+
+    const svg = container.querySelector("svg");
+
+    if (!svg) {
+        console.error("SVG не найден");
+    return;
+        }
+
+    svg.classList.add("map-svg");
+    enableSvgNavigation(svg);
+
+    const roomsLayer = findLayerByLabel(svg, "Rooms");
+
+    const clickableElements = roomsLayer
+    ? roomsLayer.querySelectorAll("path, rect, polygon")
+    : svg.querySelectorAll("path, rect, polygon");
+
+        clickableElements.forEach(element => {
+            const svgLabel = getSvgLabel(element);
+    const svgElementId = element.id;
+
+    if (!svgLabel && !svgElementId) {
+                return;
+            }
+
+    element.classList.add("map-clickable");
+
+    element.addEventListener("click", async function (event) {
+        event.stopPropagation();
+
+    clearSelected(svg);
+    element.classList.add("selected-room");
+
+    console.log("CLICKED SVG OBJECT:", {
+        building: building,
+    floor: floor,
+    svgLabel: svgLabel,
+    svgElementId: svgElementId
+                });
+
+    await loadMapObject(building, floor, svgLabel, svgElementId);
+            });
+        });
+
+    await focusObjectFromQuery(svg, building, floor);
+    initMapSearch();
+
+
+    });
+
+    function getSvgLabel(element) {
+        return element.getAttribute("inkscape:label")
+    || element.getAttributeNS("http://www.inkscape.org/namespaces/inkscape", "label")
+    || null;
+    }
+
+    function findLayerByLabel(svg, label) {
+        const groups = svg.querySelectorAll("g");
+
+    for (const group of groups) {
+            if (getSvgLabel(group) === label) {
+                return group;
+            }
+        }
+
+    return null;
+    }
+
+    function clearSelected(svg) {
+        svg.querySelectorAll(".selected-room").forEach(element => {
+            element.classList.remove("selected-room");
+        });
+    }
+
+    async function loadMapObject(building, floor, svgLabel, svgElementId) {
+        const params = new URLSearchParams();
+
+    params.append("building", building);
+    params.append("floor", floor);
+
+    if (svgLabel) {
+        params.append("svgLabel", svgLabel);
+        }
+
+    if (svgElementId) {
+        params.append("svgElementId", svgElementId);
+        }
+
+    const response = await fetch(`/Maps/GetMapObject?${params.toString()}`);
+
+    if (!response.ok) {
+        document.getElementById("roomTitle").innerText = "Информация не найдена";
+    document.getElementById("roomType").innerText = "";
+    document.getElementById("roomDescription").innerText = "Для этого элемента SVG пока нет записи в базе данных.";
+    return;
+        }
+
+    const data = await response.json();
+
+    document.getElementById("roomTitle").innerText = data.number
+    ? `${data.number} — ${data.title}`
+    : data.title;
+
+    document.getElementById("roomType").innerText = data.type
+    ? `Тип: ${data.type}`
+    : "";
+
+    document.getElementById("roomDescription").innerText = data.description || "";
+    }
+
+    async function focusObjectFromQuery(svg, building, floor) {
+        const params = new URLSearchParams(window.location.search);
+
+    const svgLabel = params.get("focusSvgLabel");
+    const svgElementId = params.get("focusSvgElementId");
+    const number = params.get("focusNumber");
+
+    if (!svgLabel && !svgElementId && !number) {
+            return;
+        }
+
+    const elements = findMapElements(svg, svgLabel, svgElementId, number);
+
+        if (elements.length > 0) {
+        clearSelected(svg);
+
+            elements.forEach(element => {
+        element.classList.add("selected-room");
+            });
+
+    elements[0].scrollIntoView({
+        behavior: "smooth",
+    block: "center",
+    inline: "center"
+            });
+        }
+
+    await loadMapObject(
+    building,
+    floor,
+    svgLabel || number,
+    svgElementId || number
+    );
+    }
+
+    function findMapElements(svg, svgLabel, svgElementId, number) {
+        const allElements = svg.querySelectorAll("path, rect, polygon");
+    const result = [];
+
+        allElements.forEach(element => {
+            const elementLabel = getSvgLabel(element);
+    const elementId = element.id;
+
+    const labelMatched =
+    svgLabel && elementLabel === svgLabel;
+
+    const idMatched =
+    svgElementId && elementId === svgElementId;
+
+    const numberMatched =
+    number && (elementLabel === number || elementId === number);
+
+    if (labelMatched || idMatched || numberMatched) {
+        result.push(element);
+            }
+        });
+
+    return result;
+    }
+
+
+    function enableSvgNavigation(svg) {
+        let scale = 1;
+
+    let translateX = 0;
+    let translateY = 0;
+
+    let isDragging = false;
+
+    let startX = 0;
+    let startY = 0;
+
+    const minScale = 0.5;
+    const maxScale = 5;
+    const zoomStep = 0.15;
+
+    const zoomInBtn = document.getElementById("zoomInBtn");
+    const zoomOutBtn = document.getElementById("zoomOutBtn");
+
+    updateTransform();
+
+    svg.addEventListener("wheel", function (event) {
+        event.preventDefault();
+
+    if (event.deltaY < 0) {
+        zoomIn();
+            }
+    else {
+        zoomOut();
+            }
+        });
+
+    if (zoomInBtn) {
+        zoomInBtn.addEventListener("click", function () {
+            zoomIn();
+        });
+        }
+
+    if (zoomOutBtn) {
+        zoomOutBtn.addEventListener("click", function () {
+            zoomOut();
+        });
+        }
+
+    svg.addEventListener("mousedown", function (event) {
+            if (event.button !== 0) {
+                return;
+            }
+
+    isDragging = true;
+
+    startX = event.clientX - translateX;
+    startY = event.clientY - translateY;
+
+    svg.style.cursor = "grabbing";
+        });
+
+    window.addEventListener("mousemove", function (event) {
+            if (!isDragging) {
+                return;
+            }
+
+    translateX = event.clientX - startX;
+    translateY = event.clientY - startY;
+
+    updateTransform();
+        });
+
+    window.addEventListener("mouseup", function () {
+        isDragging = false;
+    svg.style.cursor = "grab";
+        });
+
+    function zoomIn() {
+        scale += zoomStep;
+    scale = clampScale(scale);
+    updateTransform();
+        }
+
+    function zoomOut() {
+        scale -= zoomStep;
+    scale = clampScale(scale);
+    updateTransform();
+        }
+
+    function clampScale(value) {
+            return Math.max(minScale, Math.min(value, maxScale));
+        }
+
+    function updateTransform() {
+        svg.style.transform =
+        `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+    svg.style.transformOrigin = "center center";
+    svg.style.cursor = "grab";
+        }
+    }
+
+
+    function initMapSearch() {
+        const searchInput = document.getElementById("searchInput");
+    const searchButton = document.getElementById("searchButton");
+
+    if (!searchInput) {
+            return;
+        }
+
+    async function runSearch() {
+            const query = searchInput.value.trim();
+
+    if (!query) {
+                return;
+            }
+
+    await searchMapObject(query);
+        }
+
+    // Поиск по Enter
+    searchInput.addEventListener("keydown", async function (event) {
+            if (event.key === "Enter") {
+        event.preventDefault();
+    await runSearch();
+            }
+        });
+
+    // Поиск по кнопке
+    if (searchButton) {
+        searchButton.addEventListener("click", async function (event) {
+            event.preventDefault();
+            await runSearch();
+        });
+        }
+    }
+
+    async function searchMapObject(query) {
+        const response = await fetch(`/Maps/SearchMapObject?query=${encodeURIComponent(query)}`);
+
+    if (!response.ok) {
+        document.getElementById("roomTitle").innerText = "Объект не найден";
+    document.getElementById("roomType").innerText = "";
+    document.getElementById("roomDescription").innerText = "Попробуйте ввести другой номер или название.";
+    return;
+        }
+
+    const result = await response.json();
+
+    const container = document.getElementById("mapContainer");
+
+    const currentBuilding = container.dataset.building.toLowerCase();
+    const currentFloor = Number(container.dataset.floor);
+
+    const targetBuilding = String(result.building || "").toLowerCase();
+    const targetFloor = Number(result.floor);
+
+    // Если объект в другом корпусе или на другом этаже — переходим туда
+    if (currentBuilding !== targetBuilding || currentFloor !== targetFloor) {
+            const params = new URLSearchParams();
+
+    params.append("building", targetBuilding);
+    params.append("floor", targetFloor);
+
+    if (result.svgLabel) {
+        params.append("focusSvgLabel", result.svgLabel);
+            }
+
+    if (result.svgElementId) {
+        params.append("focusSvgElementId", result.svgElementId);
+            }
+
+    if (result.number) {
+        params.append("focusNumber", result.number);
+            }
+
+    window.location.href = `/Maps/Maps?${params.toString()}`;
+    return;
+        }
+
+    // Если объект уже на текущей карте — просто выделяем его
+    await focusFoundObject(result);
+    }
+
+    async function focusFoundObject(result) {
+        const container = document.getElementById("mapContainer");
+    const svg = container.querySelector("svg");
+
+    if (!svg) {
+            return;
+        }
+
+    const building = container.dataset.building;
+    const floor = container.dataset.floor;
+
+    const elements = findMapElements(
+    svg,
+    result.svgLabel,
+    result.svgElementId,
+    result.number
+    );
+
+        if (elements.length > 0) {
+        clearSelected(svg);
+
+            elements.forEach(element => {
+        element.classList.add("selected-room");
+            });
+
+    elements[0].scrollIntoView({
+        behavior: "smooth",
+    block: "center",
+    inline: "center"
+            });
+        }
+
+    await loadMapObject(
+    building,
+    floor,
+    result.svgLabel || result.number,
+    result.svgElementId || result.number
+);
+}
+
+
+
+
+
+

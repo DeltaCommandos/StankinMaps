@@ -26,4 +26,6 @@ public class FloorMap
     public Building Building { get; set; } = null!;
 
     public List<MapObject> MapObjects { get; set; } = new();
+
+    
 }

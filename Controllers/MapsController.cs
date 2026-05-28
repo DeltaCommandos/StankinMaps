@@ -176,5 +176,40 @@ namespace StankinMaps.Controllers
 
             return Json(result);
         }
+
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> SearchSuggestions(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query) || query.Length < 2)
+            {
+                return Json(new List<object>());
+            }
+
+            query = query.Trim();
+            var pattern = $"%{query}%";
+
+            var suggestions = await _context.MapObjects
+                .Where(x =>
+                    x.IsSearchable &&
+                    (
+                        (x.Number != null && EF.Functions.ILike(x.Number, pattern)) ||
+                        (x.Title != null && EF.Functions.ILike(x.Title, pattern))
+                    ))
+                .OrderByDescending(x => x.Number == query)
+                .ThenBy(x => x.Number)
+                .Take(8)
+                .Select(x => new
+                {
+                    id = x.Id,
+                    number = x.Number,
+                    title = x.Title
+                })
+                .ToListAsync();
+
+            return Json(suggestions);
+        }
     }
 }

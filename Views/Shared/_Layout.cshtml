@@ -53,6 +53,9 @@
             </button>
 
             <div id="headerSearchMessage" class="header-search-message"></div>
+            <div id="searchSuggestions"
+                 class="search-suggestions">
+            </div>
         </div>
         
 
@@ -76,7 +79,9 @@
             const input = document.getElementById("headerSearchInput");
             const button = document.getElementById("headerSearchButton");
             const message = document.getElementById("headerSearchMessage");
+            const suggestions = document.getElementById("searchSuggestions");
 
+            let suggestionTimer = null;
             if (!search || !input || !button) {
                 return;
             }
@@ -85,10 +90,10 @@
             let isSearching = false;
 
             button.addEventListener("click", async function () {
-                if (!search.classList.contains("open")) {
-                    openSearch();
-                    return;
-                }
+                // if (!search.classList.contains("open")) {
+                //     openSearch();
+                //     return;
+                // }
 
                 await runSearch();
             });
@@ -103,6 +108,23 @@
                     closeSearch();
                 }
             });
+
+            input.addEventListener("input", function () {
+
+            clearTimeout(suggestionTimer);
+
+            const query = input.value.trim();
+
+            if (query.length < 2) {
+                hideSuggestions();
+                return;
+            }
+
+            suggestionTimer = setTimeout(async () => {
+                await loadSuggestions(query);
+            }, 250);
+        });
+
 
             // input.addEventListener("input", function () {
             //     clearTimeout(searchTimer);
@@ -120,15 +142,20 @@
             //     }, 500);
             // });
 
-            function openSearch() {
-                search.classList.add("open");
-                input.focus();
-            }
+            // function openSearch() {
+            //     search.classList.add("open");
+            //     input.focus();
+            // }
 
+            // function closeSearch() {
+            //     search.classList.remove("open");
+            //     input.value = "";
+            //     hideMessage();
+            // }
             function closeSearch() {
-                search.classList.remove("open");
                 input.value = "";
                 hideMessage();
+                hideSuggestions();
             }
 
             async function runSearch() {
@@ -196,6 +223,74 @@
                 message.innerText = "";
                 message.classList.remove("visible");
             }
+
+            async function loadSuggestions(query) {
+
+            try {
+
+                const response = await fetch(
+                    `/Maps/SearchSuggestions?query=${encodeURIComponent(query)}`
+                );
+
+                if (!response.ok) {
+                    hideSuggestions();
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (!data.length) {
+                    hideSuggestions();
+                    return;
+                }
+
+                suggestions.innerHTML = "";
+
+                data.forEach(item => {
+
+                    const div = document.createElement("div");
+
+                    div.className = "search-suggestion-item";
+
+                    div.innerHTML = `
+                        <div class="search-suggestion-number">
+                            ${item.number ?? ""}
+                        </div>
+                        <div class="search-suggestion-title">
+                            ${item.title ?? ""}
+                        </div>
+                    `;
+
+                    div.addEventListener("click", () => {
+                        input.value = item.number || item.title;
+                        hideSuggestions();
+                        runSearch();
+                    });
+
+                    suggestions.appendChild(div);
+                });
+
+                suggestions.classList.add("visible");
+
+            } 
+            catch {
+                hideSuggestions();
+            }
+        }
+
+            function hideSuggestions() {
+
+            suggestions.innerHTML = "";
+            suggestions.classList.remove("visible");
+        }
+
+            function closeSearch() {
+                search.classList.remove("open");
+                input.value = "";
+                hideMessage();
+                hideSuggestions();
+            }
+
         });
     </script>
 </body>
